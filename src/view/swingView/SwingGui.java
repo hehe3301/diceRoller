@@ -1,4 +1,4 @@
-package view;
+package view.swingView;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,7 @@ public class SwingGui extends JFrame implements Observer {
 	private JLabel results;
 	private JPanel diceBag = new JPanel();
 	private JPanel comandButtons = new JPanel();
+	@SuppressWarnings("unused")
 	private DiceRollerModel model;
 
 	public SwingGui(DiceRollerModel model) {
@@ -92,6 +93,7 @@ public class SwingGui extends JFrame implements Observer {
 	}
 	
 	public static void main(String[] args){
+		@SuppressWarnings("unused")
 		SwingGui main  = new SwingGui(new DiceRollerModel());
 	}
 

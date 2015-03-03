@@ -1,4 +1,4 @@
-package view;
+package view.textView;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -7,24 +7,24 @@ import java.util.Scanner;
 import model.DiceRollerModel;
 
 public class TextGui implements Observer {
-	static DiceRollerModel model;
-	private static boolean rolled = false;
+	static DiceRollerModel model; //set up a model
+	private static boolean rolled = false; //crate an internal to the view 
 
 	public TextGui(DiceRollerModel model) {
-		this.model = model;
-		model.addObserver(this);
+		TextGui.model = model; //sets my model
+		model.addObserver(this); //tells the model i am observing it
 		printHelp();
-		Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in); //creates my scanner
 		String input = "";
-		while ( !("quit".equalsIgnoreCase(input)  || "exit".equalsIgnoreCase(input) ) ) {
-			input = in.nextLine();
+		while ( !("quit".equalsIgnoreCase(input)  || "exit".equalsIgnoreCase(input) ) ) { //while we are not being told to quit
+			input = in.nextLine(); //gets the input line
 			String[] arg = input.split(" ");
 			if (arg[0].equalsIgnoreCase("dice")) { // adds a dice to the list
 				rolled = false;
-				if (arg.length != 2) {
+				if (arg.length != 2) { //if you did not give enough arguments
 					System.out.println("Invalid input.");
 				} else {
-					try {
+					try { //to catch bad numbers
 						model.addDie(Integer.parseInt(arg[1]));
 					} catch( NumberFormatException e)					{
 						System.out.println("Invalid input.");
@@ -32,48 +32,48 @@ public class TextGui implements Observer {
 				}
 			} else if (arg[0].equalsIgnoreCase("mod")) { // adds a modifier
 				rolled = false;
-				if (arg.length != 2) {
+				if (arg.length != 2) { //if you did not give enough arguments
 					System.out.println("Invalid input.");
 				} else {
-					try {
+					try {//to catch bad numbers
 						model.addMod(Integer.parseInt(arg[1]));
 					} catch( NumberFormatException e)					{
 						System.out.println("Invalid input.");
 					}
 				}
-			} else if (arg[0].equalsIgnoreCase("clear")) {
+			} else if (arg[0].equalsIgnoreCase("clear")) { //empties your dice pool
 				rolled = false;
 				model.clear();
-			} else if (arg[0].equalsIgnoreCase("roll")) {
+			} else if (arg[0].equalsIgnoreCase("roll")) { //rolls your dice
 				rolled = true;
 				model.rollIt();
-			} else if (arg[0].equalsIgnoreCase("help")) {
+			} else if (arg[0].equalsIgnoreCase("help")) {  //prints the help message
 				printHelp();
 			} else if (arg[0].equalsIgnoreCase("quit") || arg[0].equalsIgnoreCase("exit")) {
 				// how did you even get here?
-			} else if (arg[0].equals("")){
+			} else if (arg[0].equals("")){ //enter to roll as well
 				rolled = true;
 				model.rollIt();
-			}  else {
+			}  else { //if you break things
 				System.out.println("Invalid input.");
 			}
 
 		}
 
-		in.close();
+		in.close(); //cleans up my scanner
 	}
 
 	private static void view() {
 		
-		if (rolled) {
+		if (rolled) { //if we have rolled print the roll
 			System.out.println("" + model.getToParse() + " = "
 					+ model.getResult());
 		} else {
 			System.out.println("" + model.getToParse());
-		}
+		}// if(rolled)
 		System.out.println("-----------------------------");
 
-	}
+	} //view
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
@@ -95,6 +95,7 @@ public class TextGui implements Observer {
 	}
 
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		TextGui main = new TextGui(new DiceRollerModel());
 
 	}

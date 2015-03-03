@@ -1,29 +1,32 @@
-package view;
+package view.swingView;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
 import javax.swing.*;
 
 import model.DiceRollerModel;
-@SuppressWarnings("serial")
-public class Die extends JPanel implements Observer {
-	@SuppressWarnings("unused")
-	private int faces;
-	JButton plus;
-	JButton minus;
+
+public class ModsPanel extends JPanel {
 	
-	public Die(int faces, DiceRollerModel model){
-		this.faces=faces;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
+	private DiceRollerModel model;
+	private JTextField text = new JTextField();
+	private JButton plus = new JButton("+");
+	private JButton minus = new JButton("-");
+	private JPanel bot = new JPanel();
+	
+	public ModsPanel(DiceRollerModel model){
+		super();
+		this.model=model;
 		this.setLayout(new GridLayout(2,1));
-		JLabel label = new JLabel("1d"+faces);
-		JPanel top = new JPanel();
-		top.setLayout(new FlowLayout(FlowLayout.CENTER));
-		top.add(label);
-		this.add( top, SwingConstants.CENTER);
-		JPanel bot = new JPanel();
+		this.add(text);
+		
 		bot.setLayout(new FlowLayout(FlowLayout.CENTER));
 		plus = new JButton("+");
 		plus.addActionListener(new ActionListener() { 
@@ -36,7 +39,7 @@ public class Die extends JPanel implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				listenModel.addDie(faces);
+				listenModel.addMod(Integer.parseInt(text.getText()));
 			}
 		}.setModel(model));
 		minus = new JButton("-");
@@ -50,20 +53,12 @@ public class Die extends JPanel implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				listenModel.addDie(-faces);
+				listenModel.addMod(Integer.parseInt("-" + text.getText()));
 			}
 		}.setModel(model));
 		bot.add(plus);
 		bot.add(minus);
 		this.add(bot);
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
-	}
-
-	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
